@@ -55,30 +55,6 @@ Number_of_Incidents INT
 );
 
 
---Boston Crimes Table NOT WORKING
---WHAT IS THIS:  invalid byte sequence for encoding "UTF8": 0xa0
-
-DROP TABLE IF EXISTS "Boston_Crimes";
-CREATE TABLE "Boston_Crimes" (
-Incident_number VARCHAR,
-Code FLOAT,
-Code_group VARCHAR,
-Description VARCHAR,
-District VARCHAR,
-Area VARCHAR,
-Occur_date DATE,
-Year INT,
-Month INT,
-Day VARCHAR,
-Hour INT,
-Part VARCHAR,
-Street VARCHAR,
-Latitude FLOAT,
-Longitude FLOAT,
-Coordinates VARCHAR
-);
-
-
 --Chicago Crimes Table
 
 DROP TABLE IF EXISTS "Chicago_Crimes";
@@ -111,8 +87,8 @@ Location VARCHAR
 
 --Orlando Crime Table
 
-DROP TABLE IF EXISTS "Orlando_Crimes";
-CREATE TABLE "Orlando_Crimes" (
+DROP TABLE IF EXISTS "Orlando_Crime";
+CREATE TABLE "Orlando_Crime" (
 Case_Number VARCHAR,
 Occur_date TIMESTAMP,
 Location VARCHAR,
@@ -127,12 +103,28 @@ Status VARCHAR
 
 --This is added since no coordinates are given.
 
-ALTER TABLE "Orlando_Crimes"
+ALTER TABLE "Orlando_Crime"
 ADD COLUMN City VARCHAR;
-UPDATE "Orlando_Crimes" SET City='Orlando';
+UPDATE "Orlando_Crime" SET City='Orlando';
+
+
+CREATE TABLE "Orlando_Crimes1" AS
+SELECT *, extract(hour FROM occur_date) AS Hour 
+FROM "Orlando_Crime";
+
 
 CREATE TABLE "Orlando_Crimes" AS
-SELECT *, extract(hour FROM occur_date) FROM "Orlando_Crime";
+SELECT *,
+CASE
+WHEN Hour BETWEEN 0 AND 6 THEN 'Night'
+WHEN Hour BETWEEN 7 AND 12 THEN 'Morning'
+WHEN Hour BETWEEN 13 AND 21 THEN 'Daytime'
+ELSE 'Night'
+END AS Time_of_day
+FROM "Orlando_Crimes1";
+DROP TABLE "Orlando_Crimes1";
+
+
 
 
 --Portland Crimes Table
@@ -176,16 +168,9 @@ Beat VARCHAR,
 Neighborhood VARCHAR
 );
 
-
---City is added due to there being no coordinate data
-
 ALTER TABLE "Seattle_Crimes"
 ADD COLUMN City VARCHAR;
 UPDATE "Seattle_Crimes" SET City='Seattle';
-
-
---Prototype code for joining the 6 data sets
---SET PRIMARY KEYS
 
 
 CREATE TABLE "Seattle_Crimes" AS
@@ -198,6 +183,12 @@ ELSE 'Night'
 END AS Time_of_day
 FROM "Seattle_Crime";
 DROP TABLE "Seattle_Crime";
+
+
+
+--City is added due to there being no coordinate data
+--Prototype code for joining the 6 data sets
+--SET PRIMARY KEYS
 
 
 
