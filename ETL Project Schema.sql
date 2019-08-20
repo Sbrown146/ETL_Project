@@ -124,7 +124,7 @@ END AS Time_of_day
 FROM "Orlando_Crimes1";
 DROP TABLE "Orlando_Crimes1";
 
-
+ALTER TABLE "Orlando_Crimes" ALTER COLUMN Occur_date TYPE Date;
 
 
 --Portland Crimes Table
@@ -194,11 +194,17 @@ DROP TABLE "Seattle_Crime";
 
 DROP TABLE IF EXISTS "Orlando_Seattle_Crimes";
 CREATE TABLE "Orlando_Seattle_Crimes" AS
-SELECT o.Occur_date AS "Crime Date",
-s.Description AS "Seattle Crime",
-o.Description AS "Orlando Crime"
+SELECT o.occur_date AS "Crime Date",
+s.Description AS "Seattle Crimes",
+s.Time_of_day AS "Seattle Crime Time",
+o.Description AS "Orlando Crimes",
+o.Time_of_day AS "Orlando Crime Time"
 FROM "Orlando_Crimes" AS o
-RIGHT OUTER JOIN "Seattle_Crimes" AS s
+JOIN "Seattle_Crimes" AS s
 ON (o.Occur_date=s.Occur_date)
 WHERE o.Occur_date >= ('2017-01-01')
 AND o.Occur_date < ('2017-01-08');
+
+
+--Make sure the jupyter code came back correctly
+SELECT * FROM "OS_data";
