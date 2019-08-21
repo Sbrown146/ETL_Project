@@ -57,12 +57,12 @@ Number_of_Incidents INT
 
 --Chicago Crimes Table
 
-DROP TABLE IF EXISTS "Chicago_Crimes";
-CREATE TABLE "Chicago_Crimes" (
+DROP TABLE IF EXISTS "Chicago_Crimes1";
+CREATE TABLE "Chicago_Crimes1" (
 Number FLOAT,
 ID FLOAT,
 Case_number VARCHAR,
-Occur_date Date,
+Occur_date TIMESTAMP,
 Block VARCHAR,
 IUCR VARCHAR,
 Type VARCHAR,
@@ -83,6 +83,13 @@ Latitude FLOAT,
 Longitude FLOAT,
 Location VARCHAR
 );
+
+
+CREATE TABLE "Chicago_Crimes" AS
+SELECT *, extract(hour FROM occur_date) AS Hour 
+FROM "Chicago_Crimes1";
+DROP TABLE "Chicago_Crimes1";
+
 
 
 --Orlando Crime Table
