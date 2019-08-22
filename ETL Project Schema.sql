@@ -203,8 +203,10 @@ DROP TABLE IF EXISTS "Orlando_Seattle_Crimes";
 CREATE TABLE "Orlando_Seattle_Crimes" AS
 SELECT o.occur_date AS "Crime Date",
 s.Description AS "Seattle Crimes",
+s.Occur_time AS "Seattle Time",
 s.Time_of_day AS "Seattle Crime Time",
 o.Description AS "Orlando Crimes",
+o.Hour AS "Orlando Time",
 o.Time_of_day AS "Orlando Crime Time"
 FROM "Orlando_Crimes" AS o
 JOIN "Seattle_Crimes" AS s
