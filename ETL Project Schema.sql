@@ -215,5 +215,9 @@ WHERE o.Occur_date >= ('2017-01-01')
 AND o.Occur_date < ('2017-01-08');
 
 
+
 --Make sure the jupyter code came back correctly
+
 SELECT * FROM "OS_data";
+
+SELECT * FROM 
